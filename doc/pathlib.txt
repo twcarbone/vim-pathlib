@@ -1,0 +1,116 @@
+*pathlib.txt*           Miscellaneous filesystem utilities
+
+Author: Tyler Carbone <tcarbone073@gmail.com>
+License: Same terms as Vim itself (see |license|)
+
+Inspired by Python's pathlib module.
+
+1. Path components      |pathlib-path-components|
+2. Path modifiers       |pathlib-path-modifiers|
+3. Path tests           |pathlib-path-tests|
+4. Path finding         |pathlib-path-finding|
+
+==============================================================================
+1. Path components                                  *pathlib-path-components*
+
+Path components can be taken from a {path} argument, if provided. Otherwise
+they are taken from the current file.
+
+For a current file of `/foo/bar/baz/spam.tar.gz`:
+
+COMPONENT               RESULT ~
+
+absolute([{path}])      The full path. >
+                             /foo/bar/baz/spam.tar.gz
+
+name([{path}])          The full file name. >
+                             spam.tar.gz
+
+tail([{path}])          The full file extension. >
+                             tar.gz
+
+suffix([{path}])        The last dot-separated portion of the tail. >
+                             gz
+
+stem([{path}])          The name, with the tail removed. >
+                             spam
+
+parent([{path}])        The first parent directory of the path. >
+                             /foo/bar/baz
+
+trunk([{path}])         The parent and stem. >
+                             /foo/bar/baz/spam
+
+suffixes([{path}])      All dot-separated portions of the tail. >
+                             ['tar', 'gz']
+
+parents([{path}])       All parents. >
+                             ['/foo/bar/baz', '/foo/bar', '/foo', '/']
+
+children({root} [, {maxdepth}])
+                        All child directories and files of {root}, descending
+                        into {maxdepth} (default: 2) child directories.
+
+==============================================================================
+2. Path modifiers                                   *pathlib-path-modifiers*
+
+Path modifiers can operate on a {path} argument, if provided. Otherwise they
+operate on the current file.
+
+For a path of `/foo/bar/baz/spam.tar.gz`:
+
+MODIFIER                            RESULT ~
+
+with_name({name} [, {path}])        The absolute path, with name replaced by
+                                    {name}. >
+                                        :echo pathlib#with_name('eggs.cpp')
+                                        /foo/bar/baz/eggs.cpp
+
+with_tail({tail} [, {path}])        The absolute path, with tail replaced by
+                                    {tail}. >
+                                        :echo pathlib#with_tail('log.bak')
+                                        /foo/bar/baz/spam.log.bak
+
+with_suffix({suffix} [, {path}])    The absolute path, with suffix replaced by
+                                    {suffix}. >
+                                        :echo pathlib#with_suffix('bz2')
+                                        /foo/bar/baz/spam.tar.bz2
+
+with_stem({stem} [, {path}])        The absolute path, with stem replaced by
+                                    {stem}. >
+                                        :echo pathlib#with_stem('green')
+                                        /foo/bar/baz/green.tar.gz
+
+join(...)                           Join arbitrary path components. >
+                                        :echo pathlib#join('/foo', 'ham.txt')
+                                        /foo/ham.txt
+
+==============================================================================
+3. Path tests                                       *pathlib-path-tests*
+
+TEST                    RESULT ~
+
+exists({path})          1 if {path} exists, 0 otherwise.
+
+==============================================================================
+3. Path finding                                     *pathlib-path-finding*
+
+
+                                                    *pathlib#ff_u()*
+ff_u({name}, {root} [, {stop}])
+            Search UP from {root} for the first file {name}, returning the
+            absolute path. If {stop} is provided and non-empty, stop searching
+            when a directory called {stop} is encountered. Returns an empty
+            string if no file is found.
+
+ff_d({name}, {root} [, {maxdepth}])                 *pathlib#ff_d()*
+            Search DOWN from {root} for the first file {name}, returning the
+            absolute path. If provided, only descend into {maxdepth} (default:
+            2) child directories. Returns an empty string if no file is found.
+
+ff({name}, {root}, [, {stop} [, {maxdepth}]])       *pathlib#ff()*
+            Search for a file UP and DOWN. Same as calling ff_u() followed by
+            ff_d(), returning the first result, or an empty string if nothing
+            is found.
+
+ vim:tw=78:et:ft=help:norl:
