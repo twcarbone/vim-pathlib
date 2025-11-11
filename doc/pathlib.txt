@@ -113,4 +113,8 @@ ff({name}, {root}, [, {stop} [, {maxdepth}]])       *pathlib#ff()*
             ff_d(), returning the first result, or an empty string if nothing
             is found.
 
+edit({path})                                        *pathlib#edit()*
+            Open {path} for editing if it exists and is readable, returning 0.
+            Returns 1 otherwise.
+
  vim:tw=78:et:ft=help:norl:
