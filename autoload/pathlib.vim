@@ -11,11 +11,16 @@
 
 
 function! s:resolve(path)
-    if a:path == ''
-        return expand("%:p")
+    let l:path = a:path
+    if l:path == ''
+        let l:path = expand("%:p")
     endif
 
-    return a:path
+    if l:path == '/'
+        return l:path
+    endif
+
+    return substitute(l:path, '/$', '', '')
 endfunction
 
 
