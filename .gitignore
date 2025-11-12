@@ -1,0 +1,4 @@
+# test related
+test/test.log
+test/messages
+test/*.res
