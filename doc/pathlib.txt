@@ -16,36 +16,78 @@ Inspired by Python's pathlib module.
 Path components can be taken from a {path} argument, if provided. Otherwise
 they are taken from the current file.
 
-For a current file of `/foo/bar/baz/spam.tar.gz`:
+For the component examples:
 
-COMPONENT               RESULT ~
+    `/home/user/.config/.tmux.conf`
+    `/home/user/.ssh/known_hosts`
+    `/home/user/pkg.tar.gz`
+    `/home/user/.vimrc`
+    `/`
+
+COMPONENT               DESCRIPTION ~
 
 absolute([{path}])      The full path. >
-                             /foo/bar/baz/spam.tar.gz
+                            /home/user/.config/.tmux.conf
+                            /home/user/.ssh/known_hosts
+                            /home/user/pkg.tar.gz
+                            /home/user/.vimrc
+                            /
 
-name([{path}])          The full file name. >
-                             spam.tar.gz
+name([{path}])          The last slash-separated portion of the path. >
+                            .tmux.conf
+                            known_hosts
+                            pkg.tar.gz
+                            .vimrc
+                            <empty>
 
-tail([{path}])          The full file extension. >
-                             tar.gz
+tail([{path}])          Everything right of the non-first dot in the name. >
+                            conf
+                            <empty>
+                            tar.gz
+                            <empty>
+                            <empty>
 
 suffix([{path}])        The last dot-separated portion of the tail. >
-                             gz
+                            conf
+                            <empty>
+                            gz
+                            <empty>
+                            <empty>
 
-stem([{path}])          The name, with the tail removed. >
-                             spam
+stem([{path}])          The name, with the non-first dot and tail removed. >
+                            .tmux
+                            known_hosts
+                            pkg
+                            .vimrc
+                            <empty>
 
-parent([{path}])        The first parent directory of the path. >
-                             /foo/bar/baz
+parent([{path}])        The first item in the list of parents. >
+                            /home/user/.config
+                            /home/user/.ssh
+                            /home/user
+                            /
 
 trunk([{path}])         The parent and stem. >
-                             /foo/bar/baz/spam
+                            /home/user/.config/.tmux
+                            /home/user/.ssh/known_hosts
+                            /home/user/pkg
+                            /home/.vimrc
+                            /
+
 
 suffixes([{path}])      All dot-separated portions of the tail. >
-                             ['tar', 'gz']
+                            ['conf']
+                            []
+                            ['tar', 'gz']
+                            []
+                            []
 
 parents([{path}])       All parents. >
-                             ['/foo/bar/baz', '/foo/bar', '/foo', '/']
+                            ['/home/user/.config', '/home/user', '/home', '/']
+                            ['/home/user/.ssh', '/home/user', '/home', '/']
+                            ['/home/user', '/home', '/']
+                            ['/home/user', '/home', '/']
+                            ['/']
 
 children({root} [, {maxdepth}])
                         All child directories and files of {root}, descending
@@ -57,40 +99,37 @@ children({root} [, {maxdepth}])
 Path modifiers can operate on a {path} argument, if provided. Otherwise they
 operate on the current file.
 
-For a path of `/foo/bar/baz/spam.tar.gz`:
+                                                    *pathlib#with_name()*
+with_name({name} [, {path}])
+            The absolute path, with name replaced by {name}.
 
-MODIFIER                            RESULT ~
+                                                    *pathlib#with_tail()*
+with_tail({tail} [, {path}])
+            The absolute path, with tail replaced by {tail}.
 
-with_name({name} [, {path}])        The absolute path, with name replaced by
-                                    {name}. >
-                                        :echo pathlib#with_name('eggs.cpp')
-                                        /foo/bar/baz/eggs.cpp
+                                                    *pathlib#with_suffix()*
+with_suffix({suffix} [, {path}])
+            The absolute path, with suffix replaced by {suffix}.
 
-with_tail({tail} [, {path}])        The absolute path, with tail replaced by
-                                    {tail}. >
-                                        :echo pathlib#with_tail('log.bak')
-                                        /foo/bar/baz/spam.log.bak
+                                                    *pathlib#with_stem()*
+with_stem({stem} [, {path}])
+            The absolute path, with stem replaced by {stem}.
 
-with_suffix({suffix} [, {path}])    The absolute path, with suffix replaced by
-                                    {suffix}. >
-                                        :echo pathlib#with_suffix('bz2')
-                                        /foo/bar/baz/spam.tar.bz2
-
-with_stem({stem} [, {path}])        The absolute path, with stem replaced by
-                                    {stem}. >
-                                        :echo pathlib#with_stem('green')
-                                        /foo/bar/baz/green.tar.gz
-
-join(...)                           Join arbitrary path components. >
-                                        :echo pathlib#join('/foo', 'ham.txt')
-                                        /foo/ham.txt
+                                                    *pathlib#join()*
+join(...)
+            Join arbitrary path components. Empty string are skipped.
+            Example: >
+                :echo join('/foo', '', 'bar', 'baz.txt', '')
+                /foo/bar/baz.txt
 
 ==============================================================================
 3. Path tests                                       *pathlib-path-tests*
 
-TEST                    RESULT ~
+Path tests operate on a {path} argument.
 
-exists({path})          1 if {path} exists, 0 otherwise.
+                                                    *pathlib#exists()*
+exists({path})
+            1 if {path} exists, 0 otherwise.
 
 ==============================================================================
 3. Path finding                                     *pathlib-path-finding*
@@ -103,17 +142,20 @@ ff_u({name}, {root} [, {stop}])
             when a directory called {stop} is encountered. Returns an empty
             string if no file is found.
 
-ff_d({name}, {root} [, {maxdepth}])                 *pathlib#ff_d()*
+                                                    *pathlib#ff_d()*
+ff_d({name}, {root} [, {maxdepth}])
             Search DOWN from {root} for the first file {name}, returning the
             absolute path. If provided, only descend into {maxdepth} (default:
             2) child directories. Returns an empty string if no file is found.
 
-ff({name}, {root}, [, {stop} [, {maxdepth}]])       *pathlib#ff()*
+                                                    *pathlib#ff()*
+ff({name}, {root}, [, {stop} [, {maxdepth}]])
             Search for a file UP and DOWN. Same as calling ff_u() followed by
             ff_d(), returning the first result, or an empty string if nothing
             is found.
 
-edit({path})                                        *pathlib#edit()*
+                                                    *pathlib#edit()*
+edit({path})
             Open {path} for editing if it exists and is readable, returning 0.
             Returns 1 otherwise.
 
