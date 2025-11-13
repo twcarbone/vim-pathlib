@@ -168,7 +168,7 @@ endfunction
 
 " join
 function! pathlib#join(...)
-    return join(a:000, "/")
+    return join(filter(copy(a:000), 'v:val != ""'), '/')
 endfunction
 
 
