@@ -1,4 +1,7 @@
-# test related
+# test
 test/test.log
 test/messages
 test/*.res
+
+# doc
+doc/tags
