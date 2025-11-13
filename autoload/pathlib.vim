@@ -53,7 +53,13 @@ endfunction
 
 " tail
 function! pathlib#tail(path = '')
-    return substitute(s:resolve(a:path), '^.\{-1,}\.', '', '')
+    let l:name = pathlib#name(a:path)
+    let l:idx = match(l:name, '\.', 1)
+    if l:idx == -1
+        return ''
+    else
+        return l:name[l:idx + 1:]
+    endif
 endfunction
 
 
@@ -65,7 +71,13 @@ endfunction
 
 " stem
 function! pathlib#stem(path = '')
-    return fnamemodify(s:resolve(a:path), ":t:r")
+    let l:name = pathlib#name(a:path)
+    let l:idx = match(l:name, '\.', 1)
+    if l:idx == -1
+        return l:name
+    else
+        return l:name[0:l:idx - 1]
+    endif
 endfunction
 
 
