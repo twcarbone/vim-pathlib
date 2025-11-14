@@ -2,7 +2,7 @@ help:
 	@echo "Available targets:"
 	@echo "  test		-> Run all tests"
 	@echo "  doc		-> Generatate the help tags file(s)"
-	@echo "  install	-> Install plugin to ~/.vim/pack/twcarbone/vim-pathlib"
+	@echo "  install	-> Install plugin to ~/.vim/pack/twcarbone/start/vim-pathlib"
 	@exit 0
 
 .DEFAULT:
@@ -20,6 +20,6 @@ doc:
 	@vim --clean -c 'helptags doc' -c 'q'
 
 install: doc
-	@rm -rf ~/.vim/pack/twcarbone/vim-pathlib
-	@mkdir -p ~/.vim/pack/twcarbone
-	@ln -s $$(pwd) ~/.vim/pack/twcarbone/vim-pathlib
+	@rm -rf ~/.vim/pack/twcarbone/start/vim-pathlib
+	@mkdir -p ~/.vim/pack/twcarbone/start
+	@ln -s $$(pwd) ~/.vim/pack/twcarbone/start/vim-pathlib
