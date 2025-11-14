@@ -168,7 +168,10 @@ endfunction
 
 " join
 function! pathlib#join(...)
-    return join(filter(copy(a:000), 'v:val != ""'), '/')
+    " 1. Start by naively joining all elements
+    let l:path = join(a:000, '/')
+    " 2. Compress any run of multiple / into a single /
+    return substitute(l:path, '/\{2,}', '/', 'g')
 endfunction
 
 
