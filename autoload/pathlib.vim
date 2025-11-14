@@ -156,6 +156,15 @@ endfunction
 
 
 " with_suffix
+function! pathlib#with_suffix(suffix, path = '')
+    let l:suffix = pathlib#suffix(a:path)
+
+    if l:suffix == ''
+        return pathlib#with_tail(a:suffix, a:path)
+    else
+        return substitute(a:path, pathlib#suffix(a:path) .. '$', a:suffix, '')
+    endif
+endfunction
 
 
 " with_stem
@@ -168,7 +177,10 @@ endfunction
 
 " join
 function! pathlib#join(...)
-    return join(filter(copy(a:000), 'v:val != ""'), '/')
+    " 1. Start by naively joining all elements
+    let l:path = join(a:000, '/')
+    " 2. Compress any run of multiple / into a single /
+    return substitute(l:path, '/\{2,}', '/', 'g')
 endfunction
 
 
