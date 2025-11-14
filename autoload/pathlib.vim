@@ -156,6 +156,15 @@ endfunction
 
 
 " with_suffix
+function! pathlib#with_suffix(suffix, path = '')
+    let l:suffix = pathlib#suffix(a:path)
+
+    if l:suffix == ''
+        return pathlib#with_tail(a:suffix, a:path)
+    else
+        return substitute(a:path, pathlib#suffix(a:path) .. '$', a:suffix, '')
+    endif
+endfunction
 
 
 " with_stem
