@@ -237,7 +237,9 @@ endfunction
 " ff_u
 function! pathlib#ff_u(name, root = '', stop = '')
     let l:root = s:ensure_dir(a:root)
-    let l:file = findfile(a:name, l:root .. ';' .. a:stop)
+
+    " From testing, the trailing / is required to stop searching at the dir
+    let l:file = findfile(a:name, l:root .. ';' .. a:stop .. '/')
 
     return l:file
 endfunction
