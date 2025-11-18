@@ -169,9 +169,14 @@ endfunction
 
 " with_stem
 function pathlib#with_stem(stem, path = '')
-    let l:parent = pathlib#parent(a:path)
+    let l:path = pathlib#join(pathlib#parent(a:path), a:stem)
+
     let l:tail = pathlib#tail(a:path)
-    return pathlib#join(l:parent, a:stem) .. '.' .. l:tail
+    if l:tail != ''
+        let l:path = l:path .. '.' .. l:tail
+    endif
+
+    return l:path
 endfunction
 
 
