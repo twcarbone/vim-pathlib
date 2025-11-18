@@ -31,6 +31,13 @@ function Test_with_tail()
     call assert_equal('/home/user/.config/.tmux.spam', pathlib#with_tail('spam', s:p5))
     call assert_equal('/home/user/.vimrc.bak.2', pathlib#with_tail('bak.2', s:p6))
     call assert_equal('/etc/yum.repos.d/epel.bak', pathlib#with_tail('bak', s:p7))
+
+    try
+        call pathlib#with_tail('baz', s:p8)
+    catch
+        call assert_exception('cannot add a tail to path with no stem: /')
+    endtry
+
 endfunction
 
 function Test_with_suffix()
@@ -41,6 +48,18 @@ function Test_with_suffix()
     call assert_equal('/home/user/.config/.tmux.conf2', pathlib#with_suffix('conf2', s:p5))
     call assert_equal('/home/user/.vimrc.old', pathlib#with_suffix('old', s:p6))
     call assert_equal('/etc/yum.repos.d/epel.oper', pathlib#with_suffix('oper', s:p7))
+
+    try
+        call pathlib#with_suffix('gz.old', s:p1)
+    catch
+        call assert_exception('suffix cannot contain dots: gz.old')
+    endtry
+
+    try
+        call pathlib#with_suffix('txt', s:p8)
+    catch
+        call assert_exception('cannot add a suffix to path with no stem: /')
+    endtry
 endfunction
 
 function Test_with_stem()
@@ -52,6 +71,12 @@ function Test_with_stem()
     call assert_equal('/home/user/.foo', pathlib#with_stem('.foo', s:p6))
     call assert_equal('/etc/yum.repos.d/redhat.repo', pathlib#with_stem('redhat', s:p7))
     call assert_equal('/var', pathlib#with_stem('var', s:p8))
+
+    try
+        call pathlib#with_stem('foo.bar', s:p2)
+    catch
+        call assert_exception('dots only allowed at index 0: foo.bar')
+    endtry
 endfunction
 
 function Test_join()
