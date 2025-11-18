@@ -142,11 +142,19 @@ ff_u({name}, {root} [, {stop}])
             when a directory called {stop} is encountered. Returns an empty
             string if no file is found.
 
+            Assuming '/a/b/c/d' exists:
+                `ff_u('b', '/a/b/c/d', '/a/b/c')` => `''`
+                `ff_u('b', '/a/b/c/d')`           => `'/a/b'`
+
                                                     *pathlib#ff_d()*
 ff_d({name}, {root} [, {maxdepth}])
             Search DOWN from {root} for the first file {name}, returning the
             absolute path. If provided, only descend into {maxdepth} (default:
             2) child directories. Returns an empty string if no file is found.
+
+            Assuming '/a/b/c/d' exists:
+                `ff_d('d', '/a', 1)` => `''`
+                `ff_d('d', '/a', 2)` => `/a/b/c/d`
 
                                                     *pathlib#ff()*
 ff({name}, {root}, [, {stop} [, {maxdepth}]])
