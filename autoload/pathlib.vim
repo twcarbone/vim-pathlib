@@ -239,10 +239,6 @@ function! pathlib#ff_u(name, root = '', stop = '')
     let l:root = s:ensure_dir(a:root)
     let l:file = findfile(a:name, l:root .. ';' .. a:stop)
 
-    if l:file == ''
-        call utils#error($"no such file: {a:name} (searching UP from {l:root}, ending at {a:stop})")
-    endif
-
     return l:file
 endfunction
 
@@ -251,10 +247,6 @@ endfunction
 function pathlib#ff_d(name, root = '', maxdepth = 2)
     let l:root = s:ensure_dir(a:root)
     let l:file = findfile(a:name, l:root .. '/**' .. a:maxdepth)
-
-    if l:file == ''
-        call utils#error($"no such file: {a:name} (searching DOWN, descending {a:maxdepth} subdirs)")
-    endif
 
     return l:file
 endfunction
@@ -272,10 +264,6 @@ function pathlib#ff(name, root = '', stop = '', maxdepth = 2)
         let l:file = findfile(a:name, l:root .. '/**' .. a:maxdepth)
     endif
 
-    if l:file == ''
-        call utils#error($"no such file: {a:name} (searching UP and DOWN)")
-    endif
-
     return l:file
 endfunction
 
@@ -283,7 +271,6 @@ endfunction
 " edit
 function! pathlib#edit(path)
     if !filereadable(a:path)
-        call utils#error($"file not readable: {a:path}")
         return 1
     endif
 
