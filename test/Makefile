@@ -1,5 +1,5 @@
-TESTS = test_components
-TESTS_RES = test_components.res
+TESTS = test_components test_modifiers
+TESTS_RES = test_components.res test_modifiers.res
 CLEANUP_FILES = test.log messages
 
 .PHONY: all clean tests report
