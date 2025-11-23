@@ -6,7 +6,7 @@ function! SetUp()
 endfunction
 
 function! TearDown()
-    call system('rm -rf /tmp/vimtest')
+    " /tmp/vimtest is removed in test/Makefile 'clean'
 endfunction
 
 function! Test_ff_u()
