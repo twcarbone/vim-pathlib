@@ -21,7 +21,9 @@ function! Test_with_name()
     call assert_equal('/home/user/.git', pathlib#with_name('.git', s:p6))
     call assert_equal('/etc/yum.repos.d/redhat.repo', pathlib#with_name('redhat.repo', s:p7))
     call assert_equal('/bin', pathlib#with_name('bin', s:p8))
+endfunction
 
+function! Test_with_name_emptypath()
     call assert_equal('/tmp/vimtest/a.b', pathlib#with_name('a.b'))
 endfunction
 
@@ -39,9 +41,10 @@ function Test_with_tail()
     catch
         call assert_exception('cannot add a tail to path with no stem: /')
     endtry
+endfunction
 
+function! Test_with_tail_emptypath()
     call assert_equal('/tmp/vimtest/test_modifiers.a.b', pathlib#with_tail('a.b'))
-
 endfunction
 
 function Test_with_suffix()
@@ -64,7 +67,9 @@ function Test_with_suffix()
     catch
         call assert_exception('cannot add a suffix to path with no stem: /')
     endtry
+endfunction
 
+function! Test_with_suffix_emptypath()
     call assert_equal('/tmp/vimtest/test_modifiers.txt', pathlib#with_suffix('txt'))
 
     try
@@ -89,7 +94,9 @@ function Test_with_stem()
     catch
         call assert_exception('dots only allowed at index 0: foo.bar')
     endtry
+endfunction
 
+function! Test_with_stem_emptypath()
     call assert_equal('/tmp/vimtest/f.vim', pathlib#with_stem('f'))
 endfunction
 
