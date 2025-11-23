@@ -272,7 +272,7 @@ endfunction
 
 " edit
 function! pathlib#edit(path)
-    if !filereadable(a:path)
+    if !filereadable(a:path) && !isdirectory(a:path)
         return 1
     endif
 

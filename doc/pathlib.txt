@@ -165,6 +165,6 @@ ff({name}, {root}, [, {stop} [, {maxdepth}]])
                                                     *pathlib#edit()*
 edit({path})
             Open {path} for editing if it exists and is readable, returning 0.
-            Returns 1 otherwise.
+            Returns 1 otherwise. {path} may be a file or directory.
 
  vim:tw=78:et:ft=help:norl:
