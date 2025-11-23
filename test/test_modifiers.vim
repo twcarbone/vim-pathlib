@@ -23,6 +23,10 @@ function! Test_with_name()
     call assert_equal('/bin', pathlib#with_name('bin', s:p8))
 endfunction
 
+function! Test_with_name_emptypath()
+    call assert_equal('/tmp/vimtest/a.b', pathlib#with_name('a.b'))
+endfunction
+
 function Test_with_tail()
     call assert_equal('/home/user/pkg.bak.1', pathlib#with_tail('bak.1', s:p1))
     call assert_equal('/home/user.d', pathlib#with_tail('d', s:p2))
@@ -37,7 +41,10 @@ function Test_with_tail()
     catch
         call assert_exception('cannot add a tail to path with no stem: /')
     endtry
+endfunction
 
+function! Test_with_tail_emptypath()
+    call assert_equal('/tmp/vimtest/test_modifiers.a.b', pathlib#with_tail('a.b'))
 endfunction
 
 function Test_with_suffix()
@@ -62,6 +69,16 @@ function Test_with_suffix()
     endtry
 endfunction
 
+function! Test_with_suffix_emptypath()
+    call assert_equal('/tmp/vimtest/test_modifiers.txt', pathlib#with_suffix('txt'))
+
+    try
+        call pathlib#with_suffix('a.b')
+    catch
+        call assert_exception('suffix cannot contain dots: a.b')
+    endtry
+endfunction
+
 function Test_with_stem()
     call assert_equal('/home/user/ncurses.tar.gz', pathlib#with_stem('ncurses', s:p1))
     call assert_equal('/home/osi', pathlib#with_stem('osi', s:p2))
@@ -77,6 +94,10 @@ function Test_with_stem()
     catch
         call assert_exception('dots only allowed at index 0: foo.bar')
     endtry
+endfunction
+
+function! Test_with_stem_emptypath()
+    call assert_equal('/tmp/vimtest/f.vim', pathlib#with_stem('f'))
 endfunction
 
 function Test_join()

@@ -187,7 +187,7 @@ function! pathlib#with_suffix(suffix, path = '')
     if l:suffix == ''
         return pathlib#with_tail(a:suffix, a:path)
     else
-        return substitute(a:path, pathlib#suffix(a:path) .. '$', a:suffix, '')
+        return substitute(s:resolve(a:path), pathlib#suffix(a:path) .. '$', a:suffix, '')
     endif
 endfunction
 
