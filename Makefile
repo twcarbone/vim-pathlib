@@ -1,3 +1,5 @@
+SHELL=/usr/bin/bash
+
 help:
 	@echo "Available targets:"
 	@echo "  test		-> Run all tests"

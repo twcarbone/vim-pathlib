@@ -1,3 +1,4 @@
+SHELL=/usr/bin/bash
 TESTS = test_components test_modifiers test_find
 TMP_DIR = /tmp/vimtest
 TESTS_RES = test_components.res test_modifiers.res test_find.res
