@@ -23,6 +23,23 @@ function! s:resolve(path)
 endfunction
 
 
+function s:expand(path = v:none)
+    if a:path is v:none
+        let l:path = expand("%:p")
+    elseif a:path == ""
+        return ""
+    else
+        let l:path = fnamemodify(a:path, ":p")
+    endif
+
+    if l:path == '/'
+        return l:path
+    endif
+
+    return substitute(l:path, '/$', '', '')
+endfunction
+
+
 function! s:ensure_dir(path)
     let l:resolved = s:resolve(a:path)
 
