@@ -271,6 +271,22 @@ function pathlib#ff_d(name, root = '', maxdepth = 2)
 endfunction
 
 
+" fd_u
+function pathlib#fd_u(name, root = '', stop = '')
+    let l:root = s:ensure_dir(a:root)
+    let l:dir = finddir(a:name, l:root .. ';' .. a:stop .. '/')
+    return s:expand(l:dir)
+endfunction
+
+
+" fd_d
+function pathlib#fd_d(name, root = '', maxdepth = 2)
+    let l:root = s:ensure_dir(a:root)
+    let l:dir = finddir(a:name, l:root .. '/**' .. a:maxdepth)
+    return s:expand(l:dir)
+endfunction
+
+
 " ff
 function pathlib#ff(name, root = '', stop = '', maxdepth = 2)
     let l:root = s:ensure_dir(a:root)

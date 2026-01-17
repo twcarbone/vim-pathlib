@@ -156,6 +156,14 @@ ff_d({name}, {root} [, {maxdepth}])
                 `ff_d('d', '/a', 1)` => `''`
                 `ff_d('d', '/a', 2)` => `/a/b/c/d`
 
+                                                    *pathlib#fd_u()*
+fd_u({name}, {root} [, {stop}])
+            Same as ff_u(), but finds a directory.
+
+                                                    *pathlib#fd_d()*
+fd_d({name}, {root} [, {maxdepth}])
+            Same as ff_d(), but finds a directory.
+
                                                     *pathlib#ff()*
 ff({name}, {root}, [, {stop} [, {maxdepth}]])
             Search for a file UP and DOWN. Same as calling ff_u() followed by

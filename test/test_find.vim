@@ -28,6 +28,23 @@ function! Test_ff_d()
     call assert_equal('/tmp/vimtest/a/b/c/d/2', pathlib#ff_d('2', '/tmp/vimtest/a/b/c/d', 0))
 endfunction
 
+function! Test_fd_u()
+    call assert_equal('',             pathlib#fd_u('vimtest', '/tmp/vimtest/a/b/c/d', '/tmp/vimtest/a'))
+    call assert_equal('',             pathlib#fd_u('vimtest', '/tmp/vimtest/a/b/c/d', '/tmp/vimtest/a/b'))
+    call assert_equal('/tmp/vimtest', pathlib#fd_u('vimtest', '/tmp/vimtest'))
+    call assert_equal('/tmp/vimtest', pathlib#fd_u('vimtest', '/tmp/vimtest/a'))
+    call assert_equal('/tmp/vimtest', pathlib#fd_u('vimtest', '/tmp/vimtest/a/b/c/d'))
+    call assert_equal('/tmp/vimtest', pathlib#fd_u('vimtest', '/tmp/vimtest/a/b/c/d', '/tmp'))
+endfunction
+
+function! Test_fd_d()
+    call assert_equal('',                     pathlib#fd_d('d', '/tmp/vimtest'))
+    call assert_equal('',                     pathlib#fd_d('d', '/tmp/vimtest/a/b', 0))
+    call assert_equal('',                     pathlib#fd_d('d', '/tmp/vimtest/a/b/c/d'))
+    call assert_equal('/tmp/vimtest/a/b/c/d', pathlib#fd_d('d', '/tmp/vimtest', 4))
+    call assert_equal('/tmp/vimtest/a/b/c/d', pathlib#fd_d('d', '/tmp/vimtest/a/b/c', 1))
+endfunction
+
 function! Test_ff()
     call assert_equal('',                   pathlib#ff('3', '/tmp/vimtest/a/b/c/d', '/tmp/vimtest/a/b/c'))
     call assert_equal('',                   pathlib#ff('3', '/tmp/vimtest', '', 1))
