@@ -9,20 +9,6 @@
 " private
 
 
-function! s:resolve(path)
-    let l:path = a:path
-    if l:path == ''
-        let l:path = expand("%:p")
-    endif
-
-    if l:path == '/'
-        return l:path
-    endif
-
-    return substitute(l:path, '/$', '', '')
-endfunction
-
-
 function s:expand(path = v:none)
     if a:path is v:none
         let l:path = expand("%:p")
@@ -41,10 +27,10 @@ endfunction
 
 
 function! s:ensure_dir(path)
-    let l:resolved = s:resolve(a:path)
+    let l:expanded = s:expand(a:path)
 
-    if isdirectory(l:resolved)
-        return l:resolved
+    if isdirectory(l:expanded)
+        return l:expanded
     endif
 
     echo 'Error: must be directory'
@@ -71,7 +57,7 @@ endfunction
 
 " name
 function! pathlib#name(path = '')
-    return fnamemodify(s:resolve(a:path), ":t")
+    return fnamemodify(s:expand(a:path ?? v:none), ":t")
 endfunction
 
 
@@ -89,7 +75,7 @@ endfunction
 
 " suffix
 function! pathlib#suffix(path = '')
-    return fnamemodify(s:resolve(a:path), ":e")
+    return fnamemodify(s:expand(a:path ?? v:none), ":e")
 endfunction
 
 
@@ -125,7 +111,7 @@ endfunction
 
 " parents
 function! pathlib#parents(path = '')
-    let l:path = s:resolve(a:path)
+    let l:path = s:expand(a:path ?? v:none)
 
     let l:parents = []
 
@@ -204,7 +190,7 @@ function! pathlib#with_suffix(suffix, path = '')
     if l:suffix == ''
         return pathlib#with_tail(a:suffix, a:path)
     else
-        return substitute(s:resolve(a:path), pathlib#suffix(a:path) .. '$', a:suffix, '')
+        return substitute(s:expand(a:path ?? v:none), pathlib#suffix(a:path) .. '$', a:suffix, '')
     endif
 endfunction
 
@@ -243,7 +229,7 @@ endfunction
 
 " exists
 function! pathlib#exists(path = '')
-    return filereadable(s:resolve(a:path))
+    return filereadable(s:expand(a:path ?? v:none))
 endfunction
 
 
