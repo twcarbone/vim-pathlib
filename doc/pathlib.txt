@@ -26,6 +26,7 @@ For the component examples:
 
 COMPONENT               DESCRIPTION ~
 
+                                                    *pathlib#absolute()*
 absolute([{path}])      The full path. >
                             /home/user/.config/.tmux.conf
                             /home/user/.ssh/known_hosts
@@ -33,6 +34,7 @@ absolute([{path}])      The full path. >
                             /home/user/.vimrc
                             /
 
+<                                                    *pathlib#name()*
 name([{path}])          The last slash-separated portion of the path. >
                             .tmux.conf
                             known_hosts
@@ -40,6 +42,7 @@ name([{path}])          The last slash-separated portion of the path. >
                             .vimrc
                             <empty>
 
+<                                                    *pathlib#tail()*
 tail([{path}])          Everything right of the non-first dot in the name. >
                             conf
                             <empty>
@@ -47,6 +50,7 @@ tail([{path}])          Everything right of the non-first dot in the name. >
                             <empty>
                             <empty>
 
+<                                                    *pathlib#suffix()*
 suffix([{path}])        The last dot-separated portion of the tail. >
                             conf
                             <empty>
@@ -54,6 +58,7 @@ suffix([{path}])        The last dot-separated portion of the tail. >
                             <empty>
                             <empty>
 
+<                                                    *pathlib#stem()*
 stem([{path}])          The name, with the non-first dot and tail removed. >
                             .tmux
                             known_hosts
@@ -61,12 +66,14 @@ stem([{path}])          The name, with the non-first dot and tail removed. >
                             .vimrc
                             <empty>
 
+<                                                    *pathlib#parent()*
 parent([{path}])        The first item in the list of parents. >
                             /home/user/.config
                             /home/user/.ssh
                             /home/user
                             /
 
+<                                                    *pathlib#trunk()*
 trunk([{path}])         The parent and stem. >
                             /home/user/.config/.tmux
                             /home/user/.ssh/known_hosts
@@ -74,7 +81,7 @@ trunk([{path}])         The parent and stem. >
                             /home/.vimrc
                             /
 
-
+<                                                    *pathlib#suffixes()*
 suffixes([{path}])      All dot-separated portions of the tail. >
                             ['conf']
                             []
@@ -82,6 +89,7 @@ suffixes([{path}])      All dot-separated portions of the tail. >
                             []
                             []
 
+<                                                    *pathlib#parents()*
 parents([{path}])       All parents. >
                             ['/home/user/.config', '/home/user', '/home', '/']
                             ['/home/user/.ssh', '/home/user', '/home', '/']
@@ -89,6 +97,7 @@ parents([{path}])       All parents. >
                             ['/home/user', '/home', '/']
                             ['/']
 
+<                                                    *pathlib#children()*
 children({root} [, {maxdepth}])
                         All child directories and files of {root}, descending
                         into {maxdepth} (default: 2) child directories.
