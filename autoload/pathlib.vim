@@ -240,10 +240,8 @@ endfunction
 " ff_u
 function! pathlib#ff_u(name, root = '', stop = '')
     let l:root = s:ensure_dir(a:root)
-
     " From testing, the trailing / is required to stop searching at the dir
     let l:file = findfile(a:name, l:root .. ';' .. a:stop .. '/')
-
     return l:file
 endfunction
 
@@ -252,7 +250,6 @@ endfunction
 function pathlib#ff_d(name, root = '', maxdepth = 2)
     let l:root = s:ensure_dir(a:root)
     let l:file = findfile(a:name, l:root .. '/**' .. a:maxdepth)
-
     return l:file
 endfunction
 
@@ -276,12 +273,9 @@ endfunction
 " ff
 function pathlib#ff(name, root = '', stop = '', maxdepth = 2)
     let l:root = s:ensure_dir(a:root)
-
-    " Search UP
     let l:file = pathlib#ff_u(a:name, l:root, a:stop)
 
     if l:file == ''
-        " Search DOWN
         let l:file = pathlib#ff_d(a:name, l:root, a:maxdepth)
     endif
 
