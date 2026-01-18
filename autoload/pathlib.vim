@@ -9,10 +9,13 @@
 " private
 
 
-function! s:resolve(path)
-    let l:path = a:path
-    if l:path == ''
+function s:expand(path = v:none)
+    if a:path is v:none
         let l:path = expand("%:p")
+    elseif a:path == ""
+        return ""
+    else
+        let l:path = fnamemodify(a:path, ":p")
     endif
 
     if l:path == '/'
@@ -24,10 +27,10 @@ endfunction
 
 
 function! s:ensure_dir(path)
-    let l:resolved = s:resolve(a:path)
+    let l:expanded = s:expand(a:path)
 
-    if isdirectory(l:resolved)
-        return l:resolved
+    if isdirectory(l:expanded)
+        return l:expanded
     endif
 
     echo 'Error: must be directory'
@@ -54,7 +57,7 @@ endfunction
 
 " name
 function! pathlib#name(path = '')
-    return fnamemodify(s:resolve(a:path), ":t")
+    return fnamemodify(s:expand(a:path ?? v:none), ":t")
 endfunction
 
 
@@ -72,7 +75,7 @@ endfunction
 
 " suffix
 function! pathlib#suffix(path = '')
-    return fnamemodify(s:resolve(a:path), ":e")
+    return fnamemodify(s:expand(a:path ?? v:none), ":e")
 endfunction
 
 
@@ -108,7 +111,7 @@ endfunction
 
 " parents
 function! pathlib#parents(path = '')
-    let l:path = s:resolve(a:path)
+    let l:path = s:expand(a:path ?? v:none)
 
     let l:parents = []
 
@@ -187,7 +190,7 @@ function! pathlib#with_suffix(suffix, path = '')
     if l:suffix == ''
         return pathlib#with_tail(a:suffix, a:path)
     else
-        return substitute(s:resolve(a:path), pathlib#suffix(a:path) .. '$', a:suffix, '')
+        return substitute(s:expand(a:path ?? v:none), pathlib#suffix(a:path) .. '$', a:suffix, '')
     endif
 endfunction
 
@@ -226,7 +229,7 @@ endfunction
 
 " exists
 function! pathlib#exists(path = '')
-    return filereadable(s:resolve(a:path))
+    return filereadable(s:expand(a:path ?? v:none))
 endfunction
 
 
@@ -237,10 +240,8 @@ endfunction
 " ff_u
 function! pathlib#ff_u(name, root = '', stop = '')
     let l:root = s:ensure_dir(a:root)
-
     " From testing, the trailing / is required to stop searching at the dir
     let l:file = findfile(a:name, l:root .. ';' .. a:stop .. '/')
-
     return l:file
 endfunction
 
@@ -249,20 +250,32 @@ endfunction
 function pathlib#ff_d(name, root = '', maxdepth = 2)
     let l:root = s:ensure_dir(a:root)
     let l:file = findfile(a:name, l:root .. '/**' .. a:maxdepth)
-
     return l:file
+endfunction
+
+
+" fd_u
+function pathlib#fd_u(name, root = '', stop = '')
+    let l:root = s:ensure_dir(a:root)
+    let l:dir = finddir(a:name, l:root .. ';' .. a:stop .. '/')
+    return s:expand(l:dir)
+endfunction
+
+
+" fd_d
+function pathlib#fd_d(name, root = '', maxdepth = 2)
+    let l:root = s:ensure_dir(a:root)
+    let l:dir = finddir(a:name, l:root .. '/**' .. a:maxdepth)
+    return s:expand(l:dir)
 endfunction
 
 
 " ff
 function pathlib#ff(name, root = '', stop = '', maxdepth = 2)
     let l:root = s:ensure_dir(a:root)
-
-    " Search UP
     let l:file = pathlib#ff_u(a:name, l:root, a:stop)
 
     if l:file == ''
-        " Search DOWN
         let l:file = pathlib#ff_d(a:name, l:root, a:maxdepth)
     endif
 
