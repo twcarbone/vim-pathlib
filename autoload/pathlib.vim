@@ -50,8 +50,8 @@ endfunction
 
 
 " absolute
-function! pathlib#absolute()
-    return expand("%:p")
+function! pathlib#absolute(path = '')
+    return s:expand(a:path ?? v:none)
 endfunction
 
 

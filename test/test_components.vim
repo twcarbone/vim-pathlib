@@ -12,6 +12,21 @@ endfunction
 function! TearDown()
 endfunction
 
+function! Test_absolute()
+    call assert_equal('/home/user/pkg.tar.gz', pathlib#absolute(s:p1))
+    call assert_equal('/home/user', pathlib#absolute(s:p2))
+    call assert_equal('/home/user', pathlib#absolute(s:p3))
+    call assert_equal('/home/user/.ssh/known_hosts', pathlib#absolute(s:p4))
+    call assert_equal('/home/user/.config/.tmux.conf', pathlib#absolute(s:p5))
+    call assert_equal('/home/user/.vimrc', pathlib#absolute(s:p6))
+    call assert_equal('/etc/yum.repos.d/epel.repo', pathlib#absolute(s:p7))
+    call assert_equal('/', pathlib#absolute(s:p8))
+endfunction
+
+function! Test_absolute_emptypath()
+    call assert_equal('/tmp/vimtest/test_components.vim', pathlib#absolute())
+endfunction
+
 function! Test_name()
     call assert_equal('pkg.tar.gz', pathlib#name(s:p1))
     call assert_equal('user', pathlib#name(s:p2))
