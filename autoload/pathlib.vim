@@ -292,3 +292,13 @@ function! pathlib#edit(path)
     execute "edit " .. fnameescape(a:path)
     return 0
 endfunction
+
+
+" ==============================================================================
+" miscellaneous
+
+
+" runtimepath
+function! pathlib#runtimepath()
+    return split(&runtimepath, ',')[0]
+endfunction

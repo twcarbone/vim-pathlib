@@ -9,6 +9,7 @@ Inspired by Python's pathlib module.
 2. Path modifiers       |pathlib-path-modifiers|
 3. Path tests           |pathlib-path-tests|
 4. Path finding         |pathlib-path-finding|
+5. Miscellaneous        |pathlib-miscellaneous|
 
 ==============================================================================
 1. Path components                                  *pathlib-path-components*
@@ -183,5 +184,14 @@ ff({name}, {root}, [, {stop} [, {maxdepth}]])
 edit({path})
             Open {path} for editing if it exists and is readable, returning 0.
             Returns 1 otherwise. {path} may be a file or directory.
+
+==============================================================================
+5. Miscellaneous                                    *pathlib-miscellaneous*
+
+                                                    *pathlib#runtimepath()*
+runtimepath()
+            Return the user's runtime directory.
+
+            `runtimepath()` => `'/home/<user>/.vim'`
 
  vim:tw=78:et:ft=help:norl:
