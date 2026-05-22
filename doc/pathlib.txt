@@ -142,8 +142,7 @@ exists({path})
             1 if {path} exists, 0 otherwise.
 
 ==============================================================================
-3. Path finding                                     *pathlib-path-finding*
-
+4. Path finding                                     *pathlib-path-finding*
 
                                                     *pathlib#ff_u()*
 ff_u({name}, {root} [, {stop}])
